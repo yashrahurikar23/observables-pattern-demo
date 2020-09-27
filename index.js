@@ -1,7 +1,12 @@
 // General purpose hanlders
 const thrush = x => f => f(x);
 
-const pipe = (f, g) => x => g(f(x));
+// Two ary pipe function which takes in only two functions to create a 
+// pipe out of it. A simpler version of the below pipe function
+// const pipe = (f, g) => x => g(f(x));
+
+const pipe = (...fs) => x => 
+	fs.reduce((acc, f) => f(acc), x);
 
 // Tap is responsible for performing some side effect first and then
 // return  whatever we received as an arguement.
@@ -34,11 +39,27 @@ const observable1 = new Observable();
 
 const double = x => x * 2;
 
+// Testing pipe
+// console.log(
+// 	pipe(
+// 		tap(console.log),
+// 		double,
+// 		tap(console.log),
+// 		double,
+// 		tap(console.log),
+// 		double,
+// 		tap(console.log),
+// 		double
+// 	)(10)
+);
+
+
 // Passing a function as an observer which is going to subscribe to the observable
 observable1.subscribe( 
 	pipe(
 		tap(console.log),
 		double,
+		tap(console.log),
 	)
 );
 
